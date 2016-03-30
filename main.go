@@ -19,13 +19,19 @@ func main() {
 		return
 	}
 
-	switch args[0] {
-	case "fonts":
+	// first argument should be a string
+	// so split on spaces to separate words
+	s := strings.Split(args[0], " ")
+
+	// if only one word and it is fonts
+	// print the available fonts
+	if len(s) == 1 && s[0] == "fonts" {
 		fmt.Printf("%v", fontList())
 		return
 	}
 
-	fmt.Println(draw(args))
+	// pass in slice of words to draw function
+	fmt.Println(draw(s))
 }
 
 func fontList() string {
@@ -47,8 +53,7 @@ func fontList() string {
 }
 
 func draw(s []string) string {
-	f := strings.Split(s[0], " ")
-	js := strings.Join(f, "+")
+	js := strings.Join(s, "+")
 	url := fmt.Sprintf("%s/make?text=%s", aURL, js)
 
 	resp, err := http.Get(url)
