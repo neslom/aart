@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strings"
 )
 
 const aURL = "http://artii.herokuapp.com"
@@ -21,9 +22,10 @@ func main() {
 	switch args[0] {
 	case "fonts":
 		fmt.Printf("%v", fontList())
+		return
 	}
 
-	fmt.Println(draw(args[0]))
+	fmt.Println(draw(args))
 }
 
 func fontList() string {
@@ -44,8 +46,10 @@ func fontList() string {
 	return s
 }
 
-func draw(s string) string {
-	url := fmt.Sprintf("%s/make?text=%s", aURL, s)
+func draw(s []string) string {
+	f := strings.Split(s[0], " ")
+	js := strings.Join(f, "+")
+	url := fmt.Sprintf("%s/make?text=%s", aURL, js)
 
 	resp, err := http.Get(url)
 	if err != nil {
