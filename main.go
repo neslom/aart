@@ -10,6 +10,7 @@ import (
 )
 
 const aURL = "http://artii.herokuapp.com"
+const defaultFont = "mini"
 
 func main() {
 	var font string
@@ -39,8 +40,8 @@ func main() {
 		return
 	}
 
-	// pass in slice of words to draw function
-	fmt.Println(draw(s))
+	// pass in slice of words and font to draw function
+	fmt.Println(draw(s, font))
 }
 
 func fontList() string {
@@ -61,9 +62,13 @@ func fontList() string {
 	return s
 }
 
-func draw(s []string) string {
+func draw(s []string, font string) string {
+	if font == "" {
+		font = defaultFont
+	}
 	js := strings.Join(s, "+")
-	url := fmt.Sprintf("%s/make?text=%s", aURL, js)
+	f := fmt.Sprintf("&font=%s", font)
+	url := fmt.Sprintf("%s/make?text=%s%s", aURL, js, f)
 
 	resp, err := http.Get(url)
 	if err != nil {
