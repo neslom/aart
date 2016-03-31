@@ -14,11 +14,13 @@ const defaultFont = "mini"
 
 func main() {
 	var font string
-	flag.StringVar(&font, "f", "", "select a font. to see available fonts, run 'aart fonts'")
+	var rand string
+	flag.StringVar(&font, "f", "", "select a font")
+	flag.StringVar(&rand, "r", "", "selects a random font for you")
 	flag.Usage = func() {
-		fmt.Println("Usage of aart:\n")
-		fmt.Println("\trun 'aart fonts' to see available fonts")
-		fmt.Println("\trun 'aart -f yourfont \"and some text\"' to print your text as ascii art!")
+		fmt.Println("run 'aart fonts' to see available fonts")
+		fmt.Println("run 'aart -f yourfont \"and some text\"' to print your text as ascii art!")
+		flag.PrintDefaults()
 	}
 	flag.Parse()
 
