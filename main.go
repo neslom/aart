@@ -1,18 +1,27 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
-	"os"
 	"strings"
 )
 
 const aURL = "http://artii.herokuapp.com"
 
 func main() {
-	args := os.Args[1:]
+	var font string
+	flag.StringVar(&font, "f", "", "select a font. to see available fonts, run 'aart fonts'")
+	flag.Usage = func() {
+		fmt.Println("Usage of aart:\n")
+		fmt.Println("\trun 'aart fonts' to see available fonts")
+		fmt.Println("\trun 'aart -f yourfont \"and some text\"' to print your text as ascii art!")
+	}
+	flag.Parse()
+
+	args := flag.Args()
 
 	if len(args) == 0 {
 		fmt.Printf("Usage:\n")
