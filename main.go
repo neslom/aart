@@ -12,14 +12,17 @@ import (
 )
 
 const aURL = "http://artii.herokuapp.com"
-const defaultFont = "mini"
+const defaultFont = "alligator"
 
 func main() {
 	var font string
 	var randFont bool
+	var printFont bool
 	flag.StringVar(&font, "f", "", "select a font")
 	flag.BoolVar(&randFont, "r", false, "selects a random font for you")
+	flag.BoolVar(&printFont, "p", false, "print font used")
 	flag.Usage = func() {
+		fmt.Printf("%v\n", draw([]string{"Welcome", "to", "aart!"}, "mini"))
 		fmt.Println("run 'aart fonts' to see available fonts")
 		fmt.Println("run 'aart -f yourfont \"and some text\"' to print your text as ascii art!")
 		flag.PrintDefaults()
@@ -29,7 +32,7 @@ func main() {
 	args := flag.Args()
 
 	if len(args) == 0 {
-		fmt.Printf("Usage:\n")
+		flag.Usage()
 		return
 	}
 
@@ -49,6 +52,10 @@ func main() {
 	}
 	// pass in slice of words and font to draw function
 	fmt.Println(draw(s, font))
+
+	if printFont {
+		fmt.Printf("font used: %s\n", font)
+	}
 }
 
 func fontList() []byte {
