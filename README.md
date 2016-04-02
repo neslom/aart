@@ -21,3 +21,5 @@ run 'aart -f yourfont "and some text"' to print your text as ascii art!
   -p	print font used
   -r	selects a random font for you
 </pre>
+
+This uses [Artii API](http://artii.herokuapp.com/) for the text to ascii art conversions.
