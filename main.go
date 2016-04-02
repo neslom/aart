@@ -5,8 +5,10 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
+	"math/rand"
 	"net/http"
 	"strings"
+	"time"
 )
 
 const aURL = "http://artii.herokuapp.com"
@@ -14,9 +16,9 @@ const defaultFont = "mini"
 
 func main() {
 	var font string
-	var rand string
+	var randFont bool
 	flag.StringVar(&font, "f", "", "select a font")
-	flag.StringVar(&rand, "r", "", "selects a random font for you")
+	flag.BoolVar(&randFont, "r", false, "selects a random font for you")
 	flag.Usage = func() {
 		fmt.Println("run 'aart fonts' to see available fonts")
 		fmt.Println("run 'aart -f yourfont \"and some text\"' to print your text as ascii art!")
@@ -38,15 +40,18 @@ func main() {
 	// if only one word and it is fonts
 	// print the available fonts
 	if len(s) == 1 && s[0] == "fonts" {
-		fmt.Printf("%v", fontList())
+		fmt.Printf("%v%s", string(fontList()), "\n")
 		return
 	}
 
+	if randFont {
+		font = randomFont()
+	}
 	// pass in slice of words and font to draw function
 	fmt.Println(draw(s, font))
 }
 
-func fontList() string {
+func fontList() []byte {
 	url := aURL + "/fonts_list"
 
 	resp, err := http.Get(url)
@@ -60,8 +65,7 @@ func fontList() string {
 		log.Fatal(err)
 	}
 
-	s := string(body) + "\n"
-	return s
+	return body
 }
 
 func draw(s []string, font string) string {
@@ -85,4 +89,12 @@ func draw(s []string, font string) string {
 
 	a := string(body)
 	return a
+}
+
+func randomFont() string {
+	rand.Seed(time.Now().UnixNano())
+	fl := string(fontList())
+	f := strings.Split(fl, "\n")
+	rf := f[rand.Intn(len(f))]
+	return rf
 }
