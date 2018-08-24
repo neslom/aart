@@ -24,4 +24,4 @@ run 'aart -f yourfont "and some text"' to print your text as ascii art!
 
 This uses [Artii API](http://artii.herokuapp.com/) for the text to ascii art conversions.
 
-      [![HitCount](http://hits.dwyl.io/neslom/aart.svg)](http://hits.dwyl.io/neslom/aart)
+[![HitCount](http://hits.dwyl.io/neslom/aart.svg)](http://hits.dwyl.io/neslom/aart)
